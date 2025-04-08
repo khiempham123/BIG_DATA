@@ -14,7 +14,7 @@ df = df.withColumn(
     f.when(f.dayofweek(f.col('Date')) == 1, f.date_add(f.col('Date'), 1))
      .otherwise(f.date_add(f.date_sub(f.col('Date'), f.dayofweek(f.col('Date'))), 9))
 )
-results = df.select('report_date', 'SKU', 'Qty').groupBy('report_date', 'SKU').agg(f.sum('Qty').alias('Qty')).orderBy('report_date')
+results = df.select('report_date', 'SKU', 'Qty').groupBy('report_date', 'SKU').agg(f.sum('Qty').alias('Qty')).orderBy('report_date', 'SKU')
 
 results.coalesce(1).write.option("header", "true").csv("hdfs://localhost:9000/hcmus/output")
 
